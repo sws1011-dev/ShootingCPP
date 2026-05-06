@@ -21,7 +21,6 @@ void AAccessTestActor::BeginPlay()
 	ACodingTestActor* testActor = NewObject<ACodingTestActor>(this);
 	testActor->number1 = -100;
 	UE_LOG(LogTemp, Warning, TEXT("Number1: %i"), testActor->number1);
-	
 }
 
 // Called every frame
