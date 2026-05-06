@@ -54,6 +54,24 @@ void APlayerPawn::BeginPlay()
 void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	// Tick 당, 매프레임 마다 호출됨
+	// 사용자 입력 키를 이용해서
+	FVector dir = FVector(0, h, v);
+	dir.Normalize();	// 방향 벡터 길이가 1이 되도록 정규화(1로 제한)
+	// 현재 위치 + 방향 * 속력 * 시간
+	FVector newLocation = GetActorLocation() + dir * moveSpeed * DeltaTime;
+	SetActorLocation(newLocation);	
+}
+
+// 사용자가 키를 누를 때 실행되며 h,v 변수를 재할당하는 함수
+void APlayerPawn::OnInputHorizontal(const struct FInputActionValue& value)
+{
+	h = value.Get<float>();
+}
+void APlayerPawn::OnInputVertical(const struct FInputActionValue& value)
+{
+	v = value.Get<float>();
 }
 
 // Called to bind functionality to input
