@@ -25,14 +25,33 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
 	// 박스 충돌체 컴포넌트
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* boxComp;
-	
+
 	// 스태틱 메시 컴포넌트
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
+
+	// IMC 파일의 포인터 변수
+	UPROPERTY(EditAnywhere)
+	class UInputMappingContext* imcPlayerInput;
+
+	// IA 파일의 포인터 변수
+	UPROPERTY(EditAnywhere)
+	class UInputAction* iaHorizontal;
+
+	UPROPERTY(EditAnywhere)
+	class UInputAction* iaVertical;
+
+private:
+	// 사용자 키 입력값을 받을 변수
+	float h;
+	float v;
 	
+	// 입력 이벤트 발동 시 실행 할 함수
+	void OnInputHorizontal(const struct FInputActionValue& value);
+	void OnInputVertical(const struct FInputActionValue& value);
 	
 };
