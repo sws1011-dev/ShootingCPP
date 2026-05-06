@@ -23,10 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+// private:
 	// 기본 자료형 변수
 	UPROPERTY(EditAnywhere) // 블루프린트 설정창 OK / 레벨에 배치된 액터(인스턴스) OK
 	int32 number1 = 10;
 
+// public:
 	UPROPERTY(VisibleAnywhere) // 값을 볼 수 있지만 수정 불가 -> 코드에서만 수정할 수 있고, 에디터에서는 참고용
 	float number2 = 3.14f;
 
