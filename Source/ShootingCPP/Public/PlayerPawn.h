@@ -25,4 +25,14 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	// 박스 충돌체 컴포넌트
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* boxComp;
+	
+	// 스태틱 메시 컴포넌트
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* meshComp;
+	
+	
 };
