@@ -22,4 +22,14 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	// 박스 충돌체 컴포넌트
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* boxComp;
+	
+	// 스태틱 메시 컴포넌트
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* meshComp;
+	
+	
 };
