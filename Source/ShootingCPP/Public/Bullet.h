@@ -22,4 +22,12 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	// 충돌체 콜리전 박스 포인터 변수 선언
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* boxComp;
+	
+	// 충돌체 메시 포인터 변수 선언
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* meshComp;
 };
