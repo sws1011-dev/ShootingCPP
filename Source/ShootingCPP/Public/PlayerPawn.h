@@ -63,6 +63,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ABullet> bulletFactory;
 	
+	// 발사 효과음
+	UPROPERTY(EditAnywhere)
+	class USoundBase* fireSound;
+	
 private:
 	// 사용자 키 입력값을 받을 변수
 	float h;

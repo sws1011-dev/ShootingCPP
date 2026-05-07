@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Components/ArrowComponent.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -87,6 +88,8 @@ void APlayerPawn::Fire()
 	ABullet* bullet = GetWorld() -> SpawnActor<ABullet>(bulletFactory,
 		firePosition->GetComponentLocation(),
 		firePosition->GetComponentRotation());
+	
+	UGameplayStatics::PlaySound2D(GetWorld(), fireSound);
 }
 
 
