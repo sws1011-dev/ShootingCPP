@@ -35,9 +35,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float moveSpeed = 800.f;
 	
-	// 폭발 파티클 이펙트
+	// 폭발 나이아가라 시스템 이펙트
 	UPROPERTY(EditAnywhere)
-	class UParticleSystem* explosionFX;
+	class UNiagaraSystem* explosionFX;
 
 	// 충돌 이벤트 함수 - OnComponentBeginOverlap 델리게이트에 등록할 함수
 	UFUNCTION()

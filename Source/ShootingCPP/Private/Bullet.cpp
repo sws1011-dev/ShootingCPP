@@ -4,6 +4,7 @@
 #include "Bullet.h"
 
 #include "EnemyActor.h"
+#include "NiagaraFunctionLibrary.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -52,7 +53,7 @@ void ABullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 	if (enemy != nullptr)
 	{
 		// 충돌 위치에 폭발 파티클 이펙트를 스폰
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), explosionFX, GetActorTransform());
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), explosionFX, GetActorLocation());
 		
 		// Enemy 제거
 		OtherActor->Destroy();
