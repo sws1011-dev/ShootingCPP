@@ -4,7 +4,6 @@
 #include "EnemyFactory.h"
 
 #include "EnemyActor.h"
-#include "IOS/IOSAppDelegate.h"
 
 
 // Sets default values

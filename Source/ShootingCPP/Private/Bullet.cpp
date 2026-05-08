@@ -27,6 +27,9 @@ ABullet::ABullet()
 	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("My StaticMesh Component"));
 	meshComp -> SetupAttachment(boxComp);	// 박스 콜라이더 컴포넌트의 자식 컴포넌트로 설정
 	
+	// 아래 처럼 에디터에서 생성할 프리셋 이름을 컴포넌트에 세팅해준다.
+	boxComp -> SetCollisionProfileName(TEXT("Bullet"));
+	
 }
 
 // Called when the game starts or when spawned

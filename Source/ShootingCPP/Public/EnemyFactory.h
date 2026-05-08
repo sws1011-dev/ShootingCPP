@@ -25,7 +25,7 @@ public:
 
 	// 생성할 적 블루프린터
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class AEnemyFactory> enemy;
+	TSubclassOf<class AEnemyActor> enemy;
 
 	// 생성 간격(초)
 	UPROPERTY(EditAnywhere)
