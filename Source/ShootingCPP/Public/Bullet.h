@@ -22,16 +22,22 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
+
 	// 충돌체 콜리전 박스 포인터 변수 선언
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* boxComp;
-	
+
 	// 충돌체 메시 포인터 변수 선언
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
-	
+
 	// 총알 이동 속도 변수 선언
 	UPROPERTY(EditAnywhere)
 	float moveSpeed = 800.f;
+
+	// 충돌 이벤트 함수 - OnComponentBeginOverlap 델리게이트에 등록할 함수
+	UFUNCTION()
+	void OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	                     const FHitResult& SweepResult);
 };

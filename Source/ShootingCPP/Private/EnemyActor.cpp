@@ -29,10 +29,9 @@ AEnemyActor::AEnemyActor()
 	// 박스 콜라이더 크기를 50x50x50 설정
 	FVector boxSize = FVector(50.0f, 50.0f, 50.0f);
 	boxComp->SetBoxExtent(boxSize);
-	
+
 	// 아래 처럼 에디터에서 생성할 프리셋 이름을 컴포넌트에 세팅해준다.
-	boxComp -> SetCollisionProfileName(TEXT("Enemy"));
-	
+	boxComp->SetCollisionProfileName(TEXT("Enemy"));
 }
 
 // Called when the game starts or when spawned
@@ -63,13 +62,32 @@ void AEnemyActor::BeginPlay()
 		// 직진
 		dir = GetActorForwardVector();
 	}
+
+	// OnComponentBeginOverlap 델리게이트에 OnOverlap 함수를 등록
+	// "Overlap" 발생하면 OnEnemyOverlap() 호출해 라고 엔진에 등록하는 설정
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemyActor::OnEnemyOverlap);
+}
+
+void AEnemyActor::OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                 const FHitResult& SweepResult)
+{
+	// 충돌한 상대 액터를 APlayerActor 클래스로 변환
+	APlayerPawn* player = Cast<APlayerPawn>(OtherActor);
+	if (player != nullptr)
+	{
+		// 충돌된 플레이어 제거
+		OtherActor->Destroy();
+	}
+	// 적 자신도 제거
+	Destroy();
 }
 
 // Called every frame
 void AEnemyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	// 적이 정해진 방향으로 이동
 	FVector newLocation = GetActorLocation() + dir * movingSpeed * DeltaTime;
 	SetActorLocation(newLocation);
