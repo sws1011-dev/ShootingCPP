@@ -32,11 +32,11 @@ APlayerPawn::APlayerPawn()
 	// 박스 콜라이더 크기를 50x50x50 설정
 	FVector boxSize = FVector(50.0f, 50.0f, 50.0f);
 	boxComp->SetBoxExtent(boxSize);
-	
+
 	// 총구 컴포넌트 설정
 	firePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("Fire Component"));
 	firePosition->SetupAttachment(boxComp);
-	
+
 	// 충돌 채널 설정을 C++에서 직접 하는 경우
 	// 충돌 설정은 채널/응답 조합이 복잡해질 가능성이 높기때문에, 언리얼 에디터의 프리셋으로 관리하는 것이 유리함(관례적)
 	// boxComp->SetCollisionObjectType(ECollisionChannel::ECC_GameTraceChannel1);	// Player
@@ -44,21 +44,21 @@ APlayerPawn::APlayerPawn()
 	// boxComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	// boxComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel2, ECollisionResponse::ECR_Ignore);
 	// 아래 처럼 에디터에서 생성할 프리셋 이름을 컴포넌트에 세팅해준다.
-	boxComp -> SetCollisionProfileName(TEXT("Player"));
+	boxComp->SetCollisionProfileName(TEXT("Player"));
 }
 
 // Called when the game starts or when spawned
 void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	APlayerController* pc = GetWorld()->GetFirstPlayerController();
 	if (pc != nullptr)
 	{
 		// 플레이어 컨트롤러로부터 입력 서브시스템 정보 가져오기
-		UEnhancedInputLocalPlayerSubsystem* subsys = 
+		UEnhancedInputLocalPlayerSubsystem* subsys =
 			ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(pc->GetLocalPlayer());
-		
+
 		if (subsys != nullptr)
 		{
 			subsys->AddMappingContext(imcPlayerInput, 0);
@@ -70,14 +70,16 @@ void APlayerPawn::BeginPlay()
 void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	// Tick 당, 매프레임 마다 호출됨
 	// 사용자 입력 키를 이용해서
 	FVector dir = FVector(0, h, v);
-	dir.Normalize();	// 방향 벡터 길이가 1이 되도록 정규화(1로 제한)
-	// 현재 위치 + 방향 * 속력 * 시간
-	FVector newLocation = GetActorLocation() + dir * moveSpeed * DeltaTime;
-	SetActorLocation(newLocation);	
+	dir.Normalize(); // 방향 벡터 길이가 1이 되도록 정규화(1로 제한)
+	// y축(좌우) / z축(상하)을 분리하여 이동될 수 있도록 수정
+	// 한축이 막혀도, 다른 축은 계속 이동할 수 있도록 처리하기 위해 분리
+	FVector vector = dir * moveSpeed * DeltaTime;
+	SetActorLocation(GetActorLocation() + FVector(0, vector.Y, 0), true);
+	SetActorLocation(GetActorLocation() + FVector(0, 0, vector.Z), true);
 }
 
 // 사용자가 키를 누를 때 실행되며 h,v 변수를 재할당하는 함수
@@ -85,6 +87,7 @@ void APlayerPawn::OnInputHorizontal(const struct FInputActionValue& value)
 {
 	h = value.Get<float>();
 }
+
 void APlayerPawn::OnInputVertical(const struct FInputActionValue& value)
 {
 	v = value.Get<float>();
@@ -94,10 +97,10 @@ void APlayerPawn::Fire()
 {
 	// SpawnActor<T>() 함수 구성
 	// SpawnActor<생성하려는 액터 클래스>(파일 변수, 생성할 위치, 생성할 방향회전값)
-	ABullet* bullet = GetWorld() -> SpawnActor<ABullet>(bulletFactory,
-		firePosition->GetComponentLocation(),
-		firePosition->GetComponentRotation());
-	
+	ABullet* bullet = GetWorld()->SpawnActor<ABullet>(bulletFactory,
+	                                                  firePosition->GetComponentLocation(),
+	                                                  firePosition->GetComponentRotation());
+
 	UGameplayStatics::PlaySound2D(GetWorld(), fireSound);
 }
 
@@ -106,7 +109,7 @@ void APlayerPawn::Fire()
 void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
+
 	UEnhancedInputComponent* eic = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	if (eic != nullptr)
 	{

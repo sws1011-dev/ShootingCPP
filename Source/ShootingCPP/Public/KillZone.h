@@ -20,6 +20,13 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	// 박스 콜리전 컴포넌트 선언
+	UPROPERTY(EditAnywhere)
+	class UBoxComponent* boxComp;
+
+	// 충돌 이벤트 함수 - OnComponentBeginOverlap 델리게이트에 등록할 함수
+	UFUNCTION()
+	void OnKillZoneOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                       UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	                       const FHitResult& SweepResult);
 };
