@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
 #include "MenuWidget.generated.h"
 
 /**
@@ -14,5 +15,10 @@ class SHOOTINGCPP_API UMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UButton* buttonRestart;
 	
+	UPROPERTY(EditAnywhere, meta = (BindWidget))
+	class UButton* buttonQuit;
 };
