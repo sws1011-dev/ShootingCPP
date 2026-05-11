@@ -26,12 +26,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// 박스 충돌체 컴포넌트
-	UPROPERTY(EditAnywhere)
-	class UBoxComponent* boxComp;
+	// // 박스 충돌체 컴포넌트
+	// UPROPERTY(EditAnywhere)
+	// class UBoxComponent* boxComp;
 
 	// 스태틱 메시 컴포넌트
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	class UStaticMeshComponent* meshComp;
 
 	// IMC 파일의 포인터 변수
